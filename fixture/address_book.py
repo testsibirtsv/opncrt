@@ -1,4 +1,5 @@
 from selenium.webdriver.support.ui import Select
+from scheme.address_book import AddressBook
 
 
 class AddressBookAssistant:
@@ -41,7 +42,8 @@ class AddressBookAssistant:
 
     def open_address_book_page(self):
         wd = self.conf.wd
-        wd.find_element_by_link_text("Address Book").click()
+        if not wd.current_url.endswith("/address"):
+            wd.find_element_by_link_text("Address Book").click()
 
     def delete_first_entry(self):
         wd = self.conf.wd
@@ -63,3 +65,11 @@ class AddressBookAssistant:
         self.open_address_book_page()
         return len(wd.find_elements_by_xpath("//div[@class='table-responsive']//a[.='Delete']"))
 
+    def get_address_list(self):
+        wd = self.conf.wd
+        self.open_address_book_page()
+        entries_id = []
+        for record in wd.find_elements_by_xpath("//table/tbody//a[1]"):
+            id = record.get_attribute("href")[74:]
+            entries_id.append(AddressBook(id=id))
+        return entries_id
