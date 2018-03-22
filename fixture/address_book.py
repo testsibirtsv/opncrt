@@ -1,5 +1,4 @@
 import re
-import time
 from typing import List
 from selenium.webdriver.support.ui import Select
 from scheme.address_book import AddressBook
@@ -11,19 +10,31 @@ class AddressBookAssistant:
         self.conf = conf
 
     def create(self, address: AddressBook):
+        """
+        Open Address Book page, then open and fill Add Address form
+        and submit creation.
+
+        :param address: object with parameters for fields in Add Address form.
+        """
         driver = self.conf.driver
         self.open_address_book_page()
-        # start address creation
-        self.open_address_book_form_page()
+        self.open_form_page()
         self.fill_address_form(address)
-        # submit address creation
         driver.find_element_by_css_selector("input.btn.btn-primary").click()
 
-    def open_address_book_form_page(self):
+    def open_form_page(self):
+        """
+        Open Add Address form on Address Book page.
+        """
         driver = self.conf.driver
         driver.find_element_by_link_text("New Address").click()
 
     def fill_address_form(self, address: AddressBook):
+        """
+        Fill fields with data in Add Address form.
+
+        :param address: object with parameters for fields.
+        """
         self.change_text_field_data("input-firstname", address.first_name)
         self.change_text_field_data("input-lastname", address.last_name)
         self.change_text_field_data("input-company", address.company)
@@ -32,15 +43,26 @@ class AddressBookAssistant:
         self.change_text_field_data("input-city", address.city)
         self.change_text_field_data("input-postcode", address.post_code)
         self.change_drop_list_data("input-country", address.country)
-        # time.sleep(1)
         self.change_drop_list_data("input-zone", address.region_state)
 
     def change_drop_list_data(self, ddlist_option: str, value: AddressBook):
+        """
+        Select option in dropdown list in Add Address form.
+
+        :param ddlist_option: option's id in dropdown list.
+        :param value: option's text in dropdown list.
+        """
         driver = self.conf.driver
         data_select = Select(driver.find_element_by_id(ddlist_option))
         data_select.select_by_visible_text(value)
 
     def change_text_field_data(self, field_name: str, value: AddressBook):
+        """
+        Set text into Add Address form field.
+
+        :param field_name: field's id in Add Address form.
+        :param value: field's text in Add Address form.
+        """
         driver = self.conf.driver
         if value is not None:
             driver.find_element_by_id(field_name).click()
@@ -48,32 +70,62 @@ class AddressBookAssistant:
             driver.find_element_by_id(field_name).send_keys(value)
 
     def open_address_book_page(self):
+        """
+        Open Address Book page.
+
+        :return: None, if we still on Address Book page.
+        """
         driver = self.conf.driver
         if driver.current_url.endswith("account/address"):
             return
         driver.find_element_by_link_text("Address Book").click()
 
     def delete_entry_by_index(self, index: int):
+        """
+        Delete Address Book entry from Address Book page
+        by it's positional index.
+
+        :param index: positional index of address entry
+        in list of addresses on Address Book page.
+        """
         driver = self.conf.driver
         self.open_address_book_page()
         driver.find_elements_by_xpath(
             "//div[@class='table-responsive']//a[.='Delete']")[index].click()
 
     def edit_entry_by_index(self, updated_values: AddressBook, index: int):
+        """
+        Open Address Book page, then open already existing address entry,
+        fill Add Address form with new data and submit changes.
+
+        :param updated_values: object with parameters for fields in Add Address form.
+        :param index: position of address in list on Address Book page.
+        """
         driver = self.conf.driver
         self.open_address_book_page()
         self.open_edit_page_by_position(index)
-        # fill form with new data
         self.fill_address_form(updated_values)
-        # accept changed data
         driver.find_element_by_xpath("//form[@class='form-horizontal']/div/div[2]/input").click()
 
     def open_edit_page_by_position(self, position: int):
+        """
+        Edit address book entry from the Address Book page
+        by it's positional index.
+
+        :param position: positional index of address entry
+        in list of addresses on the Address Book page.
+        """
         driver = self.conf.driver
         driver.find_elements_by_xpath(
             "//div[@class='table-responsive']//a[.='Edit']")[position].click()
 
-    def get_address_book_info(self) -> List[AddressBook]:
+    def get_content_info_from_list(self) -> List[AddressBook]:
+        """
+        Get text of each individual address record in table on the Address Book page,
+        filter and convert it into object, append them to list and return it.
+
+        :return: list of objects.
+        """
         driver = self.conf.driver
         self.open_address_book_page()
         address_list = []
@@ -82,7 +134,13 @@ class AddressBookAssistant:
             address_list.append(AddressBook(content=content))
         return address_list
 
-    def get_info_from_address_form(self, address_obj: AddressBook) -> AddressBook:
+    def get_content_info_from_form(self, address_obj: AddressBook) -> AddressBook:
+        """
+        Get text from object, filter and convert it into another object.
+
+        :param address_obj: object that we used to create/edit Add Address form.
+        :return: object with filtered text.
+        """
         self.open_address_book_page()
         info_from_object = []
         for attr in address_obj.__dict__.items():
@@ -91,7 +149,12 @@ class AddressBookAssistant:
         content = re.sub(r'\s', '', "".join(info_from_object))
         return AddressBook(content=content)
 
-    def entries_count(self):
+    def entries_count(self) -> int:
+        """
+        Count the number of address records on the Address Book page.
+
+        :return: number of records.
+        """
         driver = self.conf.driver
         self.open_address_book_page()
         return len(driver.find_elements_by_xpath(

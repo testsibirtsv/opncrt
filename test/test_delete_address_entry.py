@@ -12,7 +12,7 @@ def test_delete_address_book_entry(conf):
                                              post_code="postcode",
                                              region_state="L'vivs'ka Oblast'",
                                              country="Ukraine"))
-    previous_address_list = conf.address_book.get_address_book_info()
+    previous_address_list = conf.address_book.get_content_info_from_list()
     conf.address_book.delete_entry_by_index(1)
-    updated_address_list = conf.address_book.get_address_book_info()
+    updated_address_list = conf.address_book.get_content_info_from_list()
     assert len(previous_address_list) - 1 == len(updated_address_list)

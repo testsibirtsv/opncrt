@@ -12,9 +12,9 @@ def test_add_full_address(conf):
                         post_code="postcode",
                         region_state="L'vivs'ka Oblast'",
                         country="Ukraine")
-    previous_address_list = conf.address_book.get_address_book_info()
+    previous_address_list = conf.address_book.get_content_info_from_list()
     conf.address_book.create(entry)
-    updated_address_list = conf.address_book.get_address_book_info()
-    info_from_new_address = conf.address_book.get_info_from_address_form(entry)
+    updated_address_list = conf.address_book.get_content_info_from_list()
+    info_from_new_address = conf.address_book.get_content_info_from_form(entry)
     previous_address_list.append(info_from_new_address)
     assert sorted(previous_address_list, key=attrgetter('content')) == sorted(updated_address_list, key=attrgetter('content'))
