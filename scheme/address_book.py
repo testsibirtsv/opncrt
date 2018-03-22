@@ -1,7 +1,12 @@
-"""Temp information"""
+"""
+Contains AddressBookAssistant class that provides help with
+interacting with the Address Book page and Add Address form elements.
+"""
 
 
 class AddressBook:
+    """Use to create and compare records
+    on the Address Book page and Add Address form"""
 
     def __init__(self, first_name=None,
                  last_name=None,
@@ -12,10 +17,7 @@ class AddressBook:
                  post_code=None,
                  region_state=None,
                  country=None,
-                 content=None,
-                 id=None,
-                 zone_id=None,
-                 country_id=None):
+                 content=None):
         self.first_name = first_name
         self.last_name = last_name
         self.company = company
@@ -26,15 +28,9 @@ class AddressBook:
         self.region_state = region_state
         self.country = country
         self.content = content
-        self.id = id
-        self.zone_id = zone_id
-        self.country_id = country_id
 
     def __repr__(self):
-        return "{} {} {} {}".format(self.first_name,
-                                    self.last_name,
-                                    self.content,
-                                    self.id)
+        return "{}".format(self.content)
 
     def __eq__(self, other):
         return self.content == other.content

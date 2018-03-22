@@ -1,7 +1,14 @@
+"""
+Contain tests to edit address book records.
+"""
+
 from scheme.address_book import AddressBook
 
 
 def test_edit_address_by_position(conf):
+    """
+    Edit address book record by index.
+    """
     conf.address_book.edit_entry_by_index(AddressBook(first_name="edited_firstname",
                                                       last_name="edited_lastname",
                                                       company="edited_company",
