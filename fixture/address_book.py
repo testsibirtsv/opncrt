@@ -1,3 +1,8 @@
+"""
+Contains AddressBookAssistant class that provides help with
+interacting with the Address Book page elements.
+"""
+
 import re
 from typing import List
 from selenium.webdriver.support.ui import Select
@@ -5,6 +10,7 @@ from scheme.address_book import AddressBook
 
 
 class AddressBookAssistant:
+    """Used to work with the Address Book page."""
 
     def __init__(self, conf):
         self.conf = conf
