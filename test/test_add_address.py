@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
+from operator import attrgetter
 from scheme.address_book import AddressBook
 
 
 def test_add_full_address(conf):
-    previous_address_list = conf.address_book.get_address_list()
-    address_entry = AddressBook(first_name="firstname",
-                                last_name="lastname",
-                                company="company",
-                                address_1="address1",
-                                address_2="address2",
-                                city="city",
-                                post_code="postcode",
-                                country="Ukraine",
-                                region_state="L'vivs'ka Oblast'")
-    conf.address_book.create(address_entry)
-    updated_address_list = conf.address_book.get_address_list()
-    assert len(previous_address_list) + 1 == len(updated_address_list)
-    previous_address_list.append(address_entry)
-    assert sorted(previous_address_list, key=AddressBook.get_id_value) == sorted(updated_address_list, key=AddressBook.get_id_value)
+    entry = AddressBook(first_name="firstname1",
+                        last_name="lastname",
+                        address_1="address1",
+                        address_2="address2",
+                        city="city",
+                        post_code="postcode",
+                        region_state="L'vivs'ka Oblast'",
+                        country="Ukraine")
+    previous_address_list = conf.address_book.get_address_book_info()
+    conf.address_book.create(entry)
+    updated_address_list = conf.address_book.get_address_book_info()
+    info_from_new_address = conf.address_book.get_info_from_address_form(entry)
+    previous_address_list.append(info_from_new_address)
+    assert sorted(previous_address_list, key=attrgetter('content')) == sorted(updated_address_list, key=attrgetter('content'))

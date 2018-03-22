@@ -1,21 +1,18 @@
+"""Some information"""
 from scheme.address_book import AddressBook
 
 
-def test_delete_first_entry(conf):
-    if conf.address_book.amount() == 0:
-        conf.address_book.create(
-            AddressBook(first_name="firstname",
-                        last_name="lastname",
-                        company="company",
-                        address_1="address1",
-                        address_2="address2",
-                        city="city",
-                        post_code="postcode",
-                        country="Ukraine",
-                        region_state="L'vivs'ka Oblast'"))
-    previous_address_list = conf.address_book.get_address_list()
-    conf.address_book.delete_first_entry()
-    updated_address_list = conf.address_book.get_address_list()
+def test_delete_address_book_entry(conf):
+    if conf.address_book.entries_count() <= 2:
+        conf.address_book.create(AddressBook(first_name="firstname1",
+                                             last_name="lastname",
+                                             address_1="address1",
+                                             address_2="address2",
+                                             city="city",
+                                             post_code="postcode",
+                                             region_state="L'vivs'ka Oblast'",
+                                             country="Ukraine"))
+    previous_address_list = conf.address_book.get_address_book_info()
+    conf.address_book.delete_entry_by_index(1)
+    updated_address_list = conf.address_book.get_address_book_info()
     assert len(previous_address_list) - 1 == len(updated_address_list)
-    previous_address_list[0:1] = []
-    assert previous_address_list == updated_address_list
