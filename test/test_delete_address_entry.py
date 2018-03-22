@@ -10,7 +10,7 @@ def test_delete_address_book_entry(conf):
     Delete the address book record by index and compare the length
     of the record list before and after deleting the address book record.
     """
-    if conf.address_book.entries_count() <= 2:
+    if conf.address_book.entries_count() < 2:
         conf.address_book.create(AddressBook(first_name="firstname1",
                                              last_name="lastname",
                                              address_1="address1",
