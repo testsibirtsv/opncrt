@@ -2,6 +2,7 @@
 Contain tests to delete address book records.
 """
 
+import pytest
 from scheme.address_book import AddressBook
 
 
@@ -20,7 +21,12 @@ def test_delete_address_book_record_by_index(conf):
                                              post_code="postcode",
                                              region_state="L'vivs'ka Oblast'",
                                              country="Ukraine"))
-    previous_address_list = conf.address_book.get_content_info_from_list()
-    conf.address_book.delete_record_by_index(index)
-    updated_address_list = conf.address_book.get_content_info_from_list()
-    assert len(previous_address_list) - 1 == len(updated_address_list)
+    with pytest.allure.step("Take the number of address book records on the page."):
+        previous_address_list = len(conf.address_book.get_content_info_from_list())
+    with pytest.allure.step("Delete address book record by index %d." % index):
+        conf.address_book.delete_record_by_index(index)
+    with pytest.allure.step(
+            "Take len of address list after deleting the record by index %d" % index):
+        updated_address_list = len(conf.address_book.get_content_info_from_list())
+    with pytest.allure.step("Compare the length of the list before and after deleting the record"):
+        assert previous_address_list - 1 == updated_address_list
