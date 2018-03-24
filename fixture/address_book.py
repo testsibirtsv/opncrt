@@ -165,3 +165,17 @@ class AddressBookAssistant:
         self.open_address_book_page()
         return len(driver.find_elements_by_xpath(
             "//div[@class='table-responsive']//a[.='Edit']"))
+
+    def get_content_info_by_index(self, index: int) -> AddressBook:
+        """
+        Get text from address record  by index in table on the Address Book page,
+        filter and convert it into object.
+
+        :return: object.
+        """
+        driver = self.conf.driver
+        self.open_address_book_page()
+        info = driver.find_elements_by_xpath(
+            '//*[@id="content"]//table/tbody//td[1]')[index].text
+        content = re.sub(r'\s', '', info)
+        return AddressBook(content=content)
