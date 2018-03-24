@@ -3,8 +3,8 @@
 Contain tests to add address book records.
 """
 
-import pytest
 from operator import attrgetter
+import pytest
 from scheme.address_book import AddressBook
 
 
@@ -25,8 +25,7 @@ def test_add_new_address(conf):
         previous_address_list = conf.address_book.get_content_info_from_list()
     with pytest.allure.step("Create new address book record."):
         conf.address_book.create(record)
-    with pytest.allure.step(
-            "Collect address book list from Address Book page with new record."):
+    with pytest.allure.step("Collect address book list from Address Book page with new record."):
         updated_address_list = conf.address_book.get_content_info_from_list()
     with pytest.allure.step("Take information from new address record."):
         info_from_new_address = conf.address_book.get_content_info_from_form(record)

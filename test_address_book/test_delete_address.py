@@ -6,7 +6,7 @@ import pytest
 from scheme.address_book import AddressBook
 
 
-def test_delete_address_book_record_by_index(conf):
+def test_delete_address_by_index(conf):
     """
     Delete the address book record by index and compare the length
     of the record list before and after deleting the address book record.
@@ -25,8 +25,7 @@ def test_delete_address_book_record_by_index(conf):
         previous_address_list = len(conf.address_book.get_content_info_from_list())
     with pytest.allure.step("Delete address book record by index %d." % index):
         conf.address_book.delete_record_by_index(index)
-    with pytest.allure.step(
-            "Take len of address list after deleting the record by index %d" % index):
+    with pytest.allure.step("Take len of address list after deleting the record"):
         updated_address_list = len(conf.address_book.get_content_info_from_list())
     with pytest.allure.step("Compare the length of the list before and after deleting the record"):
         assert previous_address_list - 1 == updated_address_list
