@@ -5,6 +5,7 @@ Contains Configuration class.
 from selenium.webdriver.firefox.webdriver import WebDriver
 from fixture.session import SessionAssistant
 from fixture.address_book import AddressBookAssistant
+from fixture.personal_details import UserDetailsAssistant
 
 
 class Configuration:
@@ -14,6 +15,7 @@ class Configuration:
         self.driver = WebDriver()
         self.session = SessionAssistant(self)
         self.address_book = AddressBookAssistant(self)
+        self.personal_details = UserDetailsAssistant(self)
 
     def open_login_page(self):
         """
