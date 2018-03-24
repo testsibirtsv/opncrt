@@ -86,7 +86,7 @@ class AddressBookAssistant:
             return
         driver.find_element_by_link_text("Address Book").click()
 
-    def delete_entry_by_index(self, index: int):
+    def delete_record_by_index(self, index: int):
         """
         Delete Address Book entry from Address Book page
         by it's positional index.
@@ -99,7 +99,7 @@ class AddressBookAssistant:
         driver.find_elements_by_xpath(
             "//div[@class='table-responsive']//a[.='Delete']")[index].click()
 
-    def edit_entry_by_index(self, updated_values: AddressBook, index: int):
+    def edit_record_by_index(self, updated_values: AddressBook, index: int):
         """
         Open Address Book page, then open already existing address entry,
         fill Add Address form with new data and submit changes.
@@ -155,7 +155,7 @@ class AddressBookAssistant:
         content = re.sub(r'\s', '', "".join(info_from_object))
         return AddressBook(content=content)
 
-    def entries_count(self) -> int:
+    def records_count(self) -> int:
         """
         Count the number of address records on the Address Book page.
 
