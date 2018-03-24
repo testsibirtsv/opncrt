@@ -1,4 +1,5 @@
 """Temp info."""
+from scheme.personal_details import PersonalDetails
 
 
 class UserDetailsAssistant:
@@ -10,14 +11,14 @@ class UserDetailsAssistant:
         driver = self.conf.driver
         driver.find_element_by_xpath("//div[@id='content']//a[.='Edit Account']").click()
 
-    def change_data_in_text_fields(self, form_field, data):
+    def change_data_in_text_fields(self, form_field: str, data: str):
         driver = self.conf.driver
         if data is not None:
             driver.find_element_by_id(form_field).click()
             driver.find_element_by_id(form_field).clear()
             driver.find_element_by_id(form_field).send_keys(data)
 
-    def edit(self, user_data):
+    def edit(self, user_data: PersonalDetails):
         driver = self.conf.driver
         self.open_user_edit_form()
         self.change_data_in_text_fields("input-firstname", user_data.firtsname)

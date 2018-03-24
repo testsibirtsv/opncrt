@@ -15,4 +15,3 @@ class PersonalDetails:
     def __repr__(self):
         return "{} {} {} {}".format(self.firtsname, self.lastname,
                                     self.email, self.telephone)
-
