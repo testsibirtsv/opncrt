@@ -1,12 +1,14 @@
 """
-Contains AddressBookAssistant class that provides help with
+Contains AddressBook class that provides help with
 interacting with the Address Book page and Add Address form elements.
 """
 
 
 class AddressBook:
-    """Use to create and compare records
-    on the Address Book page and Add Address form"""
+    """
+    Use to create and compare records
+    on the Address Book page and Add Address form.
+    """
 
     def __init__(self, first_name=None,
                  last_name=None,

@@ -1,18 +1,10 @@
 # -*- coding: utf-8 -*-
-"""
-Contain tests to add address book records.
-"""
-
 from operator import attrgetter
 import pytest
 from scheme.address_book import AddressBook
 
 
 def test_add_new_address(conf):
-    """
-    Create a new address book record and compare the list of records
-    on Address Book page before and after creating the address book record.
-    """
     record = AddressBook(first_name="firstname1",
                          last_name="lastname",
                          address_1="address1",
@@ -31,6 +23,15 @@ def test_add_new_address(conf):
         info_from_new_address = conf.address_book.get_content_info_from_form(record)
     with pytest.allure.step("Append info from new record into old list."):
         previous_address_list.append(info_from_new_address)
+    with pytest.allure.step("Retrieving info about successfully added address."):
+        assert conf.address_book.get_alert_message() == 'Your address has been successfully added'
     with pytest.allure.step("Compare old and new lists."):
         assert sorted(previous_address_list, key=attrgetter(
             'content')) == sorted(updated_address_list, key=attrgetter('content'))
+
+
+# def test_add_incorrect_address(conf):
+#     conf.address_book.create(AddressBook(address_1="ad",
+#                                          city="c",
+#                                          post_code="p"))
+#     conf.address_book.get_form_error_messages()

@@ -1,17 +1,8 @@
-"""
-Contain tests to delete address book records.
-"""
-
 import pytest
 from scheme.address_book import AddressBook
 
 
-def test_delete_address_by_index(conf):
-    """
-    Delete the address book record by index and compare the length
-    of the record list before and after deleting the address book record.
-    """
-    index = 0
+def test_delete_address_by_index(conf, index=1):
     while conf.address_book.records_count() < index + 1:
         conf.address_book.create(AddressBook(first_name="firstname1",
                                              last_name="lastname_1",

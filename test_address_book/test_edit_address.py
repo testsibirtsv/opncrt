@@ -6,11 +6,7 @@ import pytest
 from scheme.address_book import AddressBook
 
 
-def test_edit_address_by_index(conf):
-    """
-    Edit address book record by index.
-    """
-    index = 0
+def test_edit_address_by_index(conf, index=2):
     record = AddressBook(first_name="edited_firstname",
                          last_name="edited_lastname",
                          company="edited_company",
@@ -28,5 +24,7 @@ def test_edit_address_by_index(conf):
         info_from_edited_address = conf.address_book.get_content_info_from_form(record)
     with pytest.allure.step("Take information about edited address on Address Book page."):
         updated_info_from_address_list = conf.address_book.get_content_info_by_index(index)
+    with pytest.allure.step("Retrieving info about successfully updated address."):
+        assert conf.address_book.get_alert_message() == 'Your address has been successfully updated'
     with pytest.allure.step("Compare info about edited address."):
         assert info_from_edited_address == updated_info_from_address_list

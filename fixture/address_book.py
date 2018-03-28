@@ -58,9 +58,10 @@ class AddressBookAssistant:
         :param ddlist_option: option's id in dropdown list.
         :param value: option's text in dropdown list.
         """
-        driver = self.conf.driver
-        data_select = Select(driver.find_element_by_id(ddlist_option))
-        data_select.select_by_visible_text(value)
+        if value is not None:
+            driver = self.conf.driver
+            data_select = Select(driver.find_element_by_id(ddlist_option))
+            data_select.select_by_visible_text(value)
 
     def change_text_field_data(self, field_name: str, value: AddressBook):
         """
@@ -79,7 +80,7 @@ class AddressBookAssistant:
         """
         Open Address Book page.
 
-        :return: None, if we still on Address Book page.
+        :return: None if we still on Address Book page.
         """
         driver = self.conf.driver
         if driver.current_url.endswith("account/address"):
@@ -179,3 +180,29 @@ class AddressBookAssistant:
             '//*[@id="content"]//table/tbody//td[1]')[index].text
         content = re.sub(r'\s', '', info)
         return AddressBook(content=content)
+
+    def get_alert_message(self) -> str:
+        """
+        Receive a message from the address book after adding,
+        editing or deleting a record.
+
+        :return: text message.
+        """
+        driver = self.conf.driver
+        return driver.find_element_by_xpath("//div[@id='account-address']/div[1]").text
+
+    # def get_form_error_messages(self):
+    #     driver = self.conf.driver
+    #     errors = driver.find_elements_by_css_selector(".text-danger")
+    #     messages = []
+    #     for error in errors:
+    #         messages.append(error.text)
+    #     firstname_error = messages[0]
+    #     lastname_error = messages[1]
+    #     address1_error = messages[2]
+    #     city_error = messages[3]
+    #     postcode_error = messages[4]
+    #     region_error = messages[5]
+    #     return (firstname_error, lastname_error,
+    #             address1_error, city_error,
+    #             postcode_error, region_error)
