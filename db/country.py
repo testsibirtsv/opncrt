@@ -111,15 +111,3 @@ def get_people():
     people_query = session.query(Customer)
     session.close()
     return people_query.all()
-
-
-if __name__ == '__main__':
-    print(get_people())
-    # country = Country.query.get(1)
-    # print(country)
-    q = (Session.query(Customer, Country, Zone)
-         .filter(Customer.email == Document.author)
-         .filter(Document.name == DocumentPermissions.document)
-         .filter(User.email == 'someemail')
-         .all())
-
